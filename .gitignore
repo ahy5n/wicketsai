@@ -1,10 +1,8 @@
-# secrets and local state
-.env
-data/app.sqlite
+# secrets: the API key goes here, never in .env (which is committed)
+.env.local
 data/app.sqlite-*
 
 # installed packages and caches (recreate with pip / npm install)
-.venv/
 __pycache__/
 .pytest_cache/
 .claude/

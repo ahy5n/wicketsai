@@ -40,7 +40,7 @@ python3 -m venv .venv && .venv/bin/pip install duckdb pytest
 ## Stage 2: asking questions
 
 ```bash
-echo 'ANTHROPIC_API_KEY=...' >> .env                     # git-ignored
+echo 'ANTHROPIC_API_KEY=...' >> .env.local               # git-ignored; never put it in .env
 .venv/bin/python -m wickets "How many sixes has Suryakumar Yadav hit off spinners?"
 .venv/bin/python -m wickets                               # interactive; follow-ups keep context
 .venv/bin/python eval/run_eval.py --limit 20 --max-usd 5  # accuracy suite sample (real API spend)
@@ -81,8 +81,8 @@ Two processes: the Python API and the Next.js app (`web/`), which proxies `/api`
 cd web && PATH=$HOME/.local/node/bin:$PATH npm run dev    # http://localhost:3000
 ```
 
-`.env` (git-ignored) holds `ANTHROPIC_API_KEY`, needed for questions; filters and story prompts work
-without it. It also holds `ADMIN_EMAIL` / `ADMIN_PASSWORD` for the local admin account, created when
+`.env.local` (git-ignored) holds `ANTHROPIC_API_KEY`, needed for questions; filters and story prompts work
+without it. `.env` (committed) holds `ADMIN_EMAIL` / `ADMIN_PASSWORD` for the local admin account, created when
 the API starts. Free accounts get `WICKETS_FREE_DAILY` questions a day (default 5).
 
 Pages: Ask (`/`, with follow-ups and story prompts), Filters (`/filters`), Saved and recent (`/saved`),

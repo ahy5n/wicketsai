@@ -138,7 +138,7 @@ def create_app(db=None, store=None, engine_factory=None):
     @app.post("/api/ask")
     def ask(body: Ask, user=Depends(require_user)):
         if needs_key and not (os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("ANTHROPIC_AUTH_TOKEN")):
-            raise HTTPException(503, "Questions aren't switched on yet: add ANTHROPIC_API_KEY to .env and restart "
+            raise HTTPException(503, "Questions aren't switched on yet: add ANTHROPIC_API_KEY to .env.local and restart "
                                      "the API. Filters and story prompts work without it.")
         left = allowance(user)
         if left == 0:
