@@ -1,0 +1,1190 @@
+- id: career_runs_kohli
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT SUM(runs_batter) FROM deliveries WHERE batter_id = 'ba607b88' AND NOT is_super_over
+  official: 4188
+  turns:
+  - How many T20I runs has Virat Kohli scored?
+- id: career_sr_kohli
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT ROUND(100.0 * SUM(runs_batter) / SUM(is_ball_faced::INT), 2) FROM deliveries WHERE batter_id = 'ba607b88' AND NOT is_super_over
+  turns:
+  - What is Virat Kohli's career strike rate in T20Is?
+- id: career_sixes_kohli
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT SUM(is_six::INT) FROM deliveries WHERE batter_id = 'ba607b88' AND NOT is_super_over
+  turns:
+  - How many sixes has Virat Kohli hit in T20Is?
+- id: career_fours_kohli
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT SUM(is_four::INT) FROM deliveries WHERE batter_id = 'ba607b88' AND NOT is_super_over
+  turns:
+  - How many fours has Virat Kohli hit in T20 internationals?
+- id: highest_score_kohli
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT MAX(runs) FROM batting_innings WHERE player_id = 'ba607b88'
+  turns:
+  - What is Virat Kohli's highest T20I score?
+- id: fifties_kohli
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT COUNT(*) FROM batting_innings WHERE player_id = 'ba607b88' AND runs BETWEEN 50 AND 99
+  turns:
+  - How many T20I half-centuries (50-99) does Virat Kohli have?
+- id: average_kohli
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT ROUND(SUM(runs_batter) / (SELECT COUNT(*) FROM wickets w JOIN innings i USING (match_id, innings) WHERE w.player_out_id = 'ba607b88'
+    AND w.kind NOT IN ('retired hurt','retired not out') AND NOT i.is_super_over), 2) FROM deliveries WHERE batter_id = 'ba607b88' AND NOT is_super_over
+  turns:
+  - What is Virat Kohli's T20I batting average?
+- id: pp_sr_kohli
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT ROUND(100.0 * SUM(runs_batter) / SUM(is_ball_faced::INT), 2) FROM deliveries WHERE batter_id = 'ba607b88' AND phase = 'powerplay'
+    AND NOT is_super_over
+  turns:
+  - What's Virat Kohli's strike rate in the powerplay in T20Is?
+- id: vs_spin_sr_kohli
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT ROUND(100.0 * SUM(runs_batter) / SUM(is_ball_faced::INT), 2) FROM deliveries_ctx WHERE batter_id = 'ba607b88' AND bowling_kind
+    = 'spin' AND NOT is_super_over
+  turns:
+  - What is Virat Kohli's T20I strike rate against spin bowling?
+- id: ducks_kohli
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT COUNT(*) FROM batting_innings b WHERE b.player_id = 'ba607b88' AND b.runs = 0 AND EXISTS (SELECT 1 FROM wickets w WHERE w.match_id
+    = b.match_id AND w.innings = b.innings AND w.player_out_id = 'ba607b88' AND w.kind NOT IN ('retired hurt','retired not out'))
+  turns:
+  - How many T20I ducks has Virat Kohli made?
+- id: career_runs_rohit
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT SUM(runs_batter) FROM deliveries WHERE batter_id = '740742ef' AND NOT is_super_over
+  official: 4231
+  turns:
+  - How many T20I runs has Rohit Sharma scored?
+- id: career_sr_rohit
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT ROUND(100.0 * SUM(runs_batter) / SUM(is_ball_faced::INT), 2) FROM deliveries WHERE batter_id = '740742ef' AND NOT is_super_over
+  turns:
+  - What is Rohit Sharma's career strike rate in T20Is?
+- id: career_sixes_rohit
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT SUM(is_six::INT) FROM deliveries WHERE batter_id = '740742ef' AND NOT is_super_over
+  turns:
+  - How many sixes has Rohit Sharma hit in T20Is?
+- id: career_fours_rohit
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT SUM(is_four::INT) FROM deliveries WHERE batter_id = '740742ef' AND NOT is_super_over
+  turns:
+  - How many fours has Rohit Sharma hit in T20 internationals?
+- id: highest_score_rohit
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT MAX(runs) FROM batting_innings WHERE player_id = '740742ef'
+  turns:
+  - What is Rohit Sharma's highest T20I score?
+- id: fifties_rohit
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT COUNT(*) FROM batting_innings WHERE player_id = '740742ef' AND runs BETWEEN 50 AND 99
+  turns:
+  - How many T20I half-centuries (50-99) does Rohit Sharma have?
+- id: average_rohit
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT ROUND(SUM(runs_batter) / (SELECT COUNT(*) FROM wickets w JOIN innings i USING (match_id, innings) WHERE w.player_out_id = '740742ef'
+    AND w.kind NOT IN ('retired hurt','retired not out') AND NOT i.is_super_over), 2) FROM deliveries WHERE batter_id = '740742ef' AND NOT is_super_over
+  turns:
+  - What is Rohit Sharma's T20I batting average?
+- id: pp_sr_rohit
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT ROUND(100.0 * SUM(runs_batter) / SUM(is_ball_faced::INT), 2) FROM deliveries WHERE batter_id = '740742ef' AND phase = 'powerplay'
+    AND NOT is_super_over
+  turns:
+  - What's Rohit Sharma's strike rate in the powerplay in T20Is?
+- id: vs_spin_sr_rohit
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT ROUND(100.0 * SUM(runs_batter) / SUM(is_ball_faced::INT), 2) FROM deliveries_ctx WHERE batter_id = '740742ef' AND bowling_kind
+    = 'spin' AND NOT is_super_over
+  turns:
+  - What is Rohit Sharma's T20I strike rate against spin bowling?
+- id: ducks_rohit
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT COUNT(*) FROM batting_innings b WHERE b.player_id = '740742ef' AND b.runs = 0 AND EXISTS (SELECT 1 FROM wickets w WHERE w.match_id
+    = b.match_id AND w.innings = b.innings AND w.player_out_id = '740742ef' AND w.kind NOT IN ('retired hurt','retired not out'))
+  turns:
+  - How many T20I ducks has Rohit Sharma made?
+- id: career_runs_babar
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT SUM(runs_batter) FROM deliveries WHERE batter_id = '8a75e999' AND NOT is_super_over
+  official: 4596
+  turns:
+  - How many T20I runs has Babar Azam scored?
+- id: career_sr_babar
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT ROUND(100.0 * SUM(runs_batter) / SUM(is_ball_faced::INT), 2) FROM deliveries WHERE batter_id = '8a75e999' AND NOT is_super_over
+  turns:
+  - What is Babar Azam's career strike rate in T20Is?
+- id: career_sixes_babar
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT SUM(is_six::INT) FROM deliveries WHERE batter_id = '8a75e999' AND NOT is_super_over
+  turns:
+  - How many sixes has Babar Azam hit in T20Is?
+- id: career_fours_babar
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT SUM(is_four::INT) FROM deliveries WHERE batter_id = '8a75e999' AND NOT is_super_over
+  turns:
+  - How many fours has Babar Azam hit in T20 internationals?
+- id: highest_score_babar
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT MAX(runs) FROM batting_innings WHERE player_id = '8a75e999'
+  turns:
+  - What is Babar Azam's highest T20I score?
+- id: fifties_babar
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT COUNT(*) FROM batting_innings WHERE player_id = '8a75e999' AND runs BETWEEN 50 AND 99
+  turns:
+  - How many T20I half-centuries (50-99) does Babar Azam have?
+- id: average_babar
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT ROUND(SUM(runs_batter) / (SELECT COUNT(*) FROM wickets w JOIN innings i USING (match_id, innings) WHERE w.player_out_id = '8a75e999'
+    AND w.kind NOT IN ('retired hurt','retired not out') AND NOT i.is_super_over), 2) FROM deliveries WHERE batter_id = '8a75e999' AND NOT is_super_over
+  turns:
+  - What is Babar Azam's T20I batting average?
+- id: pp_sr_babar
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT ROUND(100.0 * SUM(runs_batter) / SUM(is_ball_faced::INT), 2) FROM deliveries WHERE batter_id = '8a75e999' AND phase = 'powerplay'
+    AND NOT is_super_over
+  turns:
+  - What's Babar Azam's strike rate in the powerplay in T20Is?
+- id: vs_spin_sr_babar
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT ROUND(100.0 * SUM(runs_batter) / SUM(is_ball_faced::INT), 2) FROM deliveries_ctx WHERE batter_id = '8a75e999' AND bowling_kind
+    = 'spin' AND NOT is_super_over
+  turns:
+  - What is Babar Azam's T20I strike rate against spin bowling?
+- id: ducks_babar
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT COUNT(*) FROM batting_innings b WHERE b.player_id = '8a75e999' AND b.runs = 0 AND EXISTS (SELECT 1 FROM wickets w WHERE w.match_id
+    = b.match_id AND w.innings = b.innings AND w.player_out_id = '8a75e999' AND w.kind NOT IN ('retired hurt','retired not out'))
+  turns:
+  - How many T20I ducks has Babar Azam made?
+- id: career_runs_buttler
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT SUM(runs_batter) FROM deliveries WHERE batter_id = '99b75528' AND NOT is_super_over
+  official: 4384
+  turns:
+  - How many T20I runs has Jos Buttler scored?
+- id: career_sr_buttler
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT ROUND(100.0 * SUM(runs_batter) / SUM(is_ball_faced::INT), 2) FROM deliveries WHERE batter_id = '99b75528' AND NOT is_super_over
+  turns:
+  - What is Jos Buttler's career strike rate in T20Is?
+- id: career_sixes_buttler
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT SUM(is_six::INT) FROM deliveries WHERE batter_id = '99b75528' AND NOT is_super_over
+  turns:
+  - How many sixes has Jos Buttler hit in T20Is?
+- id: career_fours_buttler
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT SUM(is_four::INT) FROM deliveries WHERE batter_id = '99b75528' AND NOT is_super_over
+  turns:
+  - How many fours has Jos Buttler hit in T20 internationals?
+- id: highest_score_buttler
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT MAX(runs) FROM batting_innings WHERE player_id = '99b75528'
+  turns:
+  - What is Jos Buttler's highest T20I score?
+- id: fifties_buttler
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT COUNT(*) FROM batting_innings WHERE player_id = '99b75528' AND runs BETWEEN 50 AND 99
+  turns:
+  - How many T20I half-centuries (50-99) does Jos Buttler have?
+- id: average_buttler
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT ROUND(SUM(runs_batter) / (SELECT COUNT(*) FROM wickets w JOIN innings i USING (match_id, innings) WHERE w.player_out_id = '99b75528'
+    AND w.kind NOT IN ('retired hurt','retired not out') AND NOT i.is_super_over), 2) FROM deliveries WHERE batter_id = '99b75528' AND NOT is_super_over
+  turns:
+  - What is Jos Buttler's T20I batting average?
+- id: pp_sr_buttler
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT ROUND(100.0 * SUM(runs_batter) / SUM(is_ball_faced::INT), 2) FROM deliveries WHERE batter_id = '99b75528' AND phase = 'powerplay'
+    AND NOT is_super_over
+  turns:
+  - What's Jos Buttler's strike rate in the powerplay in T20Is?
+- id: vs_spin_sr_buttler
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT ROUND(100.0 * SUM(runs_batter) / SUM(is_ball_faced::INT), 2) FROM deliveries_ctx WHERE batter_id = '99b75528' AND bowling_kind
+    = 'spin' AND NOT is_super_over
+  turns:
+  - What is Jos Buttler's T20I strike rate against spin bowling?
+- id: ducks_buttler
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT COUNT(*) FROM batting_innings b WHERE b.player_id = '99b75528' AND b.runs = 0 AND EXISTS (SELECT 1 FROM wickets w WHERE w.match_id
+    = b.match_id AND w.innings = b.innings AND w.player_out_id = '99b75528' AND w.kind NOT IN ('retired hurt','retired not out'))
+  turns:
+  - How many T20I ducks has Jos Buttler made?
+- id: career_runs_mandhana
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT SUM(runs_batter) FROM deliveries WHERE batter_id = '5d2eda89' AND NOT is_super_over
+  expect_note: Women's
+  turns:
+  - How many T20I runs has Smriti Mandhana scored?
+- id: career_sr_mandhana
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT ROUND(100.0 * SUM(runs_batter) / SUM(is_ball_faced::INT), 2) FROM deliveries WHERE batter_id = '5d2eda89' AND NOT is_super_over
+  expect_note: Women's
+  turns:
+  - What is Smriti Mandhana's career strike rate in T20Is?
+- id: career_sixes_mandhana
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT SUM(is_six::INT) FROM deliveries WHERE batter_id = '5d2eda89' AND NOT is_super_over
+  expect_note: Women's
+  turns:
+  - How many sixes has Smriti Mandhana hit in T20Is?
+- id: career_fours_mandhana
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT SUM(is_four::INT) FROM deliveries WHERE batter_id = '5d2eda89' AND NOT is_super_over
+  expect_note: Women's
+  turns:
+  - How many fours has Smriti Mandhana hit in T20 internationals?
+- id: highest_score_mandhana
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT MAX(runs) FROM batting_innings WHERE player_id = '5d2eda89'
+  expect_note: Women's
+  turns:
+  - What is Smriti Mandhana's highest T20I score?
+- id: fifties_mandhana
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT COUNT(*) FROM batting_innings WHERE player_id = '5d2eda89' AND runs BETWEEN 50 AND 99
+  expect_note: Women's
+  turns:
+  - How many T20I half-centuries (50-99) does Smriti Mandhana have?
+- id: average_mandhana
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT ROUND(SUM(runs_batter) / (SELECT COUNT(*) FROM wickets w JOIN innings i USING (match_id, innings) WHERE w.player_out_id = '5d2eda89'
+    AND w.kind NOT IN ('retired hurt','retired not out') AND NOT i.is_super_over), 2) FROM deliveries WHERE batter_id = '5d2eda89' AND NOT is_super_over
+  expect_note: Women's
+  turns:
+  - What is Smriti Mandhana's T20I batting average?
+- id: pp_sr_mandhana
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT ROUND(100.0 * SUM(runs_batter) / SUM(is_ball_faced::INT), 2) FROM deliveries WHERE batter_id = '5d2eda89' AND phase = 'powerplay'
+    AND NOT is_super_over
+  expect_note: Women's
+  turns:
+  - What's Smriti Mandhana's strike rate in the powerplay in T20Is?
+- id: vs_spin_sr_mandhana
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT ROUND(100.0 * SUM(runs_batter) / SUM(is_ball_faced::INT), 2) FROM deliveries_ctx WHERE batter_id = '5d2eda89' AND bowling_kind
+    = 'spin' AND NOT is_super_over
+  expect_note: Women's
+  turns:
+  - What is Smriti Mandhana's T20I strike rate against spin bowling?
+- id: ducks_mandhana
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT COUNT(*) FROM batting_innings b WHERE b.player_id = '5d2eda89' AND b.runs = 0 AND EXISTS (SELECT 1 FROM wickets w WHERE w.match_id
+    = b.match_id AND w.innings = b.innings AND w.player_out_id = '5d2eda89' AND w.kind NOT IN ('retired hurt','retired not out'))
+  expect_note: Women's
+  turns:
+  - How many T20I ducks has Smriti Mandhana made?
+- id: career_runs_lanning
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT SUM(runs_batter) FROM deliveries WHERE batter_id = '27e003ce' AND NOT is_super_over
+  expect_note: Women's
+  turns:
+  - How many T20I runs has Meg Lanning scored?
+- id: career_sr_lanning
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT ROUND(100.0 * SUM(runs_batter) / SUM(is_ball_faced::INT), 2) FROM deliveries WHERE batter_id = '27e003ce' AND NOT is_super_over
+  expect_note: Women's
+  turns:
+  - What is Meg Lanning's career strike rate in T20Is?
+- id: career_sixes_lanning
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT SUM(is_six::INT) FROM deliveries WHERE batter_id = '27e003ce' AND NOT is_super_over
+  expect_note: Women's
+  turns:
+  - How many sixes has Meg Lanning hit in T20Is?
+- id: career_fours_lanning
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT SUM(is_four::INT) FROM deliveries WHERE batter_id = '27e003ce' AND NOT is_super_over
+  expect_note: Women's
+  turns:
+  - How many fours has Meg Lanning hit in T20 internationals?
+- id: highest_score_lanning
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT MAX(runs) FROM batting_innings WHERE player_id = '27e003ce'
+  expect_note: Women's
+  turns:
+  - What is Meg Lanning's highest T20I score?
+- id: fifties_lanning
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT COUNT(*) FROM batting_innings WHERE player_id = '27e003ce' AND runs BETWEEN 50 AND 99
+  expect_note: Women's
+  turns:
+  - How many T20I half-centuries (50-99) does Meg Lanning have?
+- id: average_lanning
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT ROUND(SUM(runs_batter) / (SELECT COUNT(*) FROM wickets w JOIN innings i USING (match_id, innings) WHERE w.player_out_id = '27e003ce'
+    AND w.kind NOT IN ('retired hurt','retired not out') AND NOT i.is_super_over), 2) FROM deliveries WHERE batter_id = '27e003ce' AND NOT is_super_over
+  expect_note: Women's
+  turns:
+  - What is Meg Lanning's T20I batting average?
+- id: pp_sr_lanning
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT ROUND(100.0 * SUM(runs_batter) / SUM(is_ball_faced::INT), 2) FROM deliveries WHERE batter_id = '27e003ce' AND phase = 'powerplay'
+    AND NOT is_super_over
+  expect_note: Women's
+  turns:
+  - What's Meg Lanning's strike rate in the powerplay in T20Is?
+- id: vs_spin_sr_lanning
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT ROUND(100.0 * SUM(runs_batter) / SUM(is_ball_faced::INT), 2) FROM deliveries_ctx WHERE batter_id = '27e003ce' AND bowling_kind
+    = 'spin' AND NOT is_super_over
+  expect_note: Women's
+  turns:
+  - What is Meg Lanning's T20I strike rate against spin bowling?
+- id: ducks_lanning
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT COUNT(*) FROM batting_innings b WHERE b.player_id = '27e003ce' AND b.runs = 0 AND EXISTS (SELECT 1 FROM wickets w WHERE w.match_id
+    = b.match_id AND w.innings = b.innings AND w.player_out_id = '27e003ce' AND w.kind NOT IN ('retired hurt','retired not out'))
+  expect_note: Women's
+  turns:
+  - How many T20I ducks has Meg Lanning made?
+- id: career_runs_sky
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT SUM(runs_batter) FROM deliveries WHERE batter_id = '271f83cd' AND NOT is_super_over
+  turns:
+  - How many T20I runs has Suryakumar Yadav scored?
+- id: career_sr_sky
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT ROUND(100.0 * SUM(runs_batter) / SUM(is_ball_faced::INT), 2) FROM deliveries WHERE batter_id = '271f83cd' AND NOT is_super_over
+  turns:
+  - What is Suryakumar Yadav's career strike rate in T20Is?
+- id: career_sixes_sky
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT SUM(is_six::INT) FROM deliveries WHERE batter_id = '271f83cd' AND NOT is_super_over
+  turns:
+  - How many sixes has Suryakumar Yadav hit in T20Is?
+- id: career_fours_sky
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT SUM(is_four::INT) FROM deliveries WHERE batter_id = '271f83cd' AND NOT is_super_over
+  turns:
+  - How many fours has Suryakumar Yadav hit in T20 internationals?
+- id: highest_score_sky
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT MAX(runs) FROM batting_innings WHERE player_id = '271f83cd'
+  turns:
+  - What is Suryakumar Yadav's highest T20I score?
+- id: fifties_sky
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT COUNT(*) FROM batting_innings WHERE player_id = '271f83cd' AND runs BETWEEN 50 AND 99
+  turns:
+  - How many T20I half-centuries (50-99) does Suryakumar Yadav have?
+- id: average_sky
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT ROUND(SUM(runs_batter) / (SELECT COUNT(*) FROM wickets w JOIN innings i USING (match_id, innings) WHERE w.player_out_id = '271f83cd'
+    AND w.kind NOT IN ('retired hurt','retired not out') AND NOT i.is_super_over), 2) FROM deliveries WHERE batter_id = '271f83cd' AND NOT is_super_over
+  turns:
+  - What is Suryakumar Yadav's T20I batting average?
+- id: pp_sr_sky
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT ROUND(100.0 * SUM(runs_batter) / SUM(is_ball_faced::INT), 2) FROM deliveries WHERE batter_id = '271f83cd' AND phase = 'powerplay'
+    AND NOT is_super_over
+  turns:
+  - What's Suryakumar Yadav's strike rate in the powerplay in T20Is?
+- id: vs_spin_sr_sky
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT ROUND(100.0 * SUM(runs_batter) / SUM(is_ball_faced::INT), 2) FROM deliveries_ctx WHERE batter_id = '271f83cd' AND bowling_kind
+    = 'spin' AND NOT is_super_over
+  turns:
+  - What is Suryakumar Yadav's T20I strike rate against spin bowling?
+- id: ducks_sky
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT COUNT(*) FROM batting_innings b WHERE b.player_id = '271f83cd' AND b.runs = 0 AND EXISTS (SELECT 1 FROM wickets w WHERE w.match_id
+    = b.match_id AND w.innings = b.innings AND w.player_out_id = '271f83cd' AND w.kind NOT IN ('retired hurt','retired not out'))
+  turns:
+  - How many T20I ducks has Suryakumar Yadav made?
+- id: career_runs_salt
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT SUM(runs_batter) FROM deliveries WHERE batter_id = '3d284ca3' AND NOT is_super_over
+  turns:
+  - How many T20I runs has Phil Salt scored?
+- id: career_sr_salt
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT ROUND(100.0 * SUM(runs_batter) / SUM(is_ball_faced::INT), 2) FROM deliveries WHERE batter_id = '3d284ca3' AND NOT is_super_over
+  turns:
+  - What is Phil Salt's career strike rate in T20Is?
+- id: career_sixes_salt
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT SUM(is_six::INT) FROM deliveries WHERE batter_id = '3d284ca3' AND NOT is_super_over
+  turns:
+  - How many sixes has Phil Salt hit in T20Is?
+- id: career_fours_salt
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT SUM(is_four::INT) FROM deliveries WHERE batter_id = '3d284ca3' AND NOT is_super_over
+  turns:
+  - How many fours has Phil Salt hit in T20 internationals?
+- id: highest_score_salt
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT MAX(runs) FROM batting_innings WHERE player_id = '3d284ca3'
+  turns:
+  - What is Phil Salt's highest T20I score?
+- id: fifties_salt
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT COUNT(*) FROM batting_innings WHERE player_id = '3d284ca3' AND runs BETWEEN 50 AND 99
+  turns:
+  - How many T20I half-centuries (50-99) does Phil Salt have?
+- id: average_salt
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT ROUND(SUM(runs_batter) / (SELECT COUNT(*) FROM wickets w JOIN innings i USING (match_id, innings) WHERE w.player_out_id = '3d284ca3'
+    AND w.kind NOT IN ('retired hurt','retired not out') AND NOT i.is_super_over), 2) FROM deliveries WHERE batter_id = '3d284ca3' AND NOT is_super_over
+  turns:
+  - What is Phil Salt's T20I batting average?
+- id: pp_sr_salt
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT ROUND(100.0 * SUM(runs_batter) / SUM(is_ball_faced::INT), 2) FROM deliveries WHERE batter_id = '3d284ca3' AND phase = 'powerplay'
+    AND NOT is_super_over
+  turns:
+  - What's Phil Salt's strike rate in the powerplay in T20Is?
+- id: vs_spin_sr_salt
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT ROUND(100.0 * SUM(runs_batter) / SUM(is_ball_faced::INT), 2) FROM deliveries_ctx WHERE batter_id = '3d284ca3' AND bowling_kind
+    = 'spin' AND NOT is_super_over
+  turns:
+  - What is Phil Salt's T20I strike rate against spin bowling?
+- id: ducks_salt
+  category: player_batting
+  grade: scalar
+  gold_sql: SELECT COUNT(*) FROM batting_innings b WHERE b.player_id = '3d284ca3' AND b.runs = 0 AND EXISTS (SELECT 1 FROM wickets w WHERE w.match_id
+    = b.match_id AND w.innings = b.innings AND w.player_out_id = '3d284ca3' AND w.kind NOT IN ('retired hurt','retired not out'))
+  turns:
+  - How many T20I ducks has Phil Salt made?
+- id: career_wkts_bumrah
+  category: player_bowling
+  grade: scalar
+  gold_sql: SELECT (SELECT COUNT(*) FROM wickets w JOIN innings i USING (match_id, innings) WHERE w.bowler_id = '462411b3' AND w.is_bowler_wkt
+    AND NOT i.is_super_over)
+  expect_note: Afghanistan
+  turns:
+  - How many T20I wickets has Jasprit Bumrah taken?
+- id: economy_bumrah
+  category: player_bowling
+  grade: scalar
+  gold_sql: SELECT ROUND(SUM(runs_conceded) / (SUM(is_legal_ball::INT) / 6.0), 2) FROM deliveries WHERE bowler_id = '462411b3' AND NOT is_super_over
+  expect_note: Afghanistan
+  turns:
+  - What is Jasprit Bumrah's career economy rate in T20Is?
+- id: death_econ_bumrah
+  category: player_bowling
+  grade: scalar
+  gold_sql: SELECT ROUND(SUM(runs_conceded) / (SUM(is_legal_ball::INT) / 6.0), 2) FROM deliveries WHERE bowler_id = '462411b3' AND phase = 'death'
+    AND NOT is_super_over
+  expect_note: Afghanistan
+  turns:
+  - What is Jasprit Bumrah's economy rate in the death overs (16-20) in T20Is?
+- id: dot_pct_bumrah
+  category: player_bowling
+  grade: scalar
+  gold_sql: SELECT ROUND(100.0 * SUM(is_dot::INT) / SUM(is_legal_ball::INT), 1) FROM deliveries WHERE bowler_id = '462411b3' AND NOT is_super_over
+  expect_note: Afghanistan
+  turns:
+  - What percentage of Jasprit Bumrah's legal deliveries in T20Is have been dot balls?
+- id: best_figures_bumrah
+  category: player_bowling
+  grade: scalar
+  gold_sql: SELECT wickets, runs_conceded FROM bowling_innings WHERE player_id = '462411b3' ORDER BY wickets DESC, runs_conceded ASC LIMIT 1
+  expect_note: Afghanistan
+  turns:
+  - What are Jasprit Bumrah's best bowling figures in a T20I?
+- id: career_wkts_ecclestone
+  category: player_bowling
+  grade: scalar
+  gold_sql: SELECT (SELECT COUNT(*) FROM wickets w JOIN innings i USING (match_id, innings) WHERE w.bowler_id = 'cdb82f1c' AND w.is_bowler_wkt
+    AND NOT i.is_super_over)
+  official: 154
+  turns:
+  - How many T20I wickets has Sophie Ecclestone taken?
+- id: economy_ecclestone
+  category: player_bowling
+  grade: scalar
+  gold_sql: SELECT ROUND(SUM(runs_conceded) / (SUM(is_legal_ball::INT) / 6.0), 2) FROM deliveries WHERE bowler_id = 'cdb82f1c' AND NOT is_super_over
+  turns:
+  - What is Sophie Ecclestone's career economy rate in T20Is?
+- id: death_econ_ecclestone
+  category: player_bowling
+  grade: scalar
+  gold_sql: SELECT ROUND(SUM(runs_conceded) / (SUM(is_legal_ball::INT) / 6.0), 2) FROM deliveries WHERE bowler_id = 'cdb82f1c' AND phase = 'death'
+    AND NOT is_super_over
+  turns:
+  - What is Sophie Ecclestone's economy rate in the death overs (16-20) in T20Is?
+- id: dot_pct_ecclestone
+  category: player_bowling
+  grade: scalar
+  gold_sql: SELECT ROUND(100.0 * SUM(is_dot::INT) / SUM(is_legal_ball::INT), 1) FROM deliveries WHERE bowler_id = 'cdb82f1c' AND NOT is_super_over
+  turns:
+  - What percentage of Sophie Ecclestone's legal deliveries in T20Is have been dot balls?
+- id: best_figures_ecclestone
+  category: player_bowling
+  grade: scalar
+  gold_sql: SELECT wickets, runs_conceded FROM bowling_innings WHERE player_id = 'cdb82f1c' ORDER BY wickets DESC, runs_conceded ASC LIMIT 1
+  turns:
+  - What are Sophie Ecclestone's best bowling figures in a T20I?
+- id: career_wkts_shaheen
+  category: player_bowling
+  grade: scalar
+  gold_sql: SELECT (SELECT COUNT(*) FROM wickets w JOIN innings i USING (match_id, innings) WHERE w.bowler_id = '45a7e761' AND w.is_bowler_wkt
+    AND NOT i.is_super_over)
+  turns:
+  - How many T20I wickets has Shaheen Shah Afridi taken?
+- id: economy_shaheen
+  category: player_bowling
+  grade: scalar
+  gold_sql: SELECT ROUND(SUM(runs_conceded) / (SUM(is_legal_ball::INT) / 6.0), 2) FROM deliveries WHERE bowler_id = '45a7e761' AND NOT is_super_over
+  turns:
+  - What is Shaheen Shah Afridi's career economy rate in T20Is?
+- id: death_econ_shaheen
+  category: player_bowling
+  grade: scalar
+  gold_sql: SELECT ROUND(SUM(runs_conceded) / (SUM(is_legal_ball::INT) / 6.0), 2) FROM deliveries WHERE bowler_id = '45a7e761' AND phase = 'death'
+    AND NOT is_super_over
+  turns:
+  - What is Shaheen Shah Afridi's economy rate in the death overs (16-20) in T20Is?
+- id: dot_pct_shaheen
+  category: player_bowling
+  grade: scalar
+  gold_sql: SELECT ROUND(100.0 * SUM(is_dot::INT) / SUM(is_legal_ball::INT), 1) FROM deliveries WHERE bowler_id = '45a7e761' AND NOT is_super_over
+  turns:
+  - What percentage of Shaheen Shah Afridi's legal deliveries in T20Is have been dot balls?
+- id: best_figures_shaheen
+  category: player_bowling
+  grade: scalar
+  gold_sql: SELECT wickets, runs_conceded FROM bowling_innings WHERE player_id = '45a7e761' ORDER BY wickets DESC, runs_conceded ASC LIMIT 1
+  turns:
+  - What are Shaheen Shah Afridi's best bowling figures in a T20I?
+- id: career_wkts_perry
+  category: player_bowling
+  grade: scalar
+  gold_sql: SELECT (SELECT COUNT(*) FROM wickets w JOIN innings i USING (match_id, innings) WHERE w.bowler_id = 'be150fc8' AND w.is_bowler_wkt
+    AND NOT i.is_super_over)
+  expect_note: Women's
+  turns:
+  - How many T20I wickets has Ellyse Perry taken?
+- id: economy_perry
+  category: player_bowling
+  grade: scalar
+  gold_sql: SELECT ROUND(SUM(runs_conceded) / (SUM(is_legal_ball::INT) / 6.0), 2) FROM deliveries WHERE bowler_id = 'be150fc8' AND NOT is_super_over
+  expect_note: Women's
+  turns:
+  - What is Ellyse Perry's career economy rate in T20Is?
+- id: death_econ_perry
+  category: player_bowling
+  grade: scalar
+  gold_sql: SELECT ROUND(SUM(runs_conceded) / (SUM(is_legal_ball::INT) / 6.0), 2) FROM deliveries WHERE bowler_id = 'be150fc8' AND phase = 'death'
+    AND NOT is_super_over
+  expect_note: Women's
+  turns:
+  - What is Ellyse Perry's economy rate in the death overs (16-20) in T20Is?
+- id: dot_pct_perry
+  category: player_bowling
+  grade: scalar
+  gold_sql: SELECT ROUND(100.0 * SUM(is_dot::INT) / SUM(is_legal_ball::INT), 1) FROM deliveries WHERE bowler_id = 'be150fc8' AND NOT is_super_over
+  expect_note: Women's
+  turns:
+  - What percentage of Ellyse Perry's legal deliveries in T20Is have been dot balls?
+- id: best_figures_perry
+  category: player_bowling
+  grade: scalar
+  gold_sql: SELECT wickets, runs_conceded FROM bowling_innings WHERE player_id = 'be150fc8' ORDER BY wickets DESC, runs_conceded ASC LIMIT 1
+  expect_note: Women's
+  turns:
+  - What are Ellyse Perry's best bowling figures in a T20I?
+- id: brief_sky_spin_sixes
+  category: brief
+  grade: scalar
+  gold_sql: SELECT SUM(is_six::INT) FROM deliveries_ctx WHERE batter_id = '271f83cd' AND bowling_kind = 'spin' AND NOT is_super_over
+  turns:
+  - How many sixes has Suryakumar Yadav hit off spinners in T20Is?
+- id: brief_bumrah_shaheen_death
+  category: brief
+  grade: scalar
+  gold_sql: SELECT ROUND(SUM(runs_conceded) FILTER (WHERE bowler_id='462411b3') / (SUM(is_legal_ball::INT) FILTER (WHERE bowler_id='462411b3')
+    / 6.0), 2), ROUND(SUM(runs_conceded) FILTER (WHERE bowler_id='45a7e761') / (SUM(is_legal_ball::INT) FILTER (WHERE bowler_id='45a7e761') /
+    6.0), 2) FROM deliveries WHERE phase = 'death' AND NOT is_super_over AND bowler_id IN ('462411b3','45a7e761')
+  expect_note: Afghanistan
+  turns:
+  - 'Bumrah vs Shaheen Afridi at the death: economy, dot-ball % and wickets.'
+- id: brief_no11_top_score
+  category: brief
+  grade: scalar
+  gold_sql: WITH s AS (SELECT b.match_id, b.runs, r.batting_position, MAX(b.runs) OVER (PARTITION BY b.match_id, b.innings) top FROM batting_innings
+    b JOIN match_roles r ON r.match_id=b.match_id AND r.player_id=b.player_id) SELECT m.date FROM s JOIN matches m USING (match_id) WHERE s.batting_position=11
+    AND s.runs=s.top AND s.runs>0 AND m.gender='male' ORDER BY m.date DESC LIMIT 1
+  turns:
+  - When did a No. 11 last top-score in a men's T20I innings?
+- id: brief_women_pp_since_2020
+  category: brief
+  grade: scalar
+  gold_sql: SELECT SUM(total_runs) r FROM deliveries d JOIN matches m USING (match_id) WHERE m.gender='female' AND m.date >= DATE '2020-01-01'
+    AND phase='powerplay' AND NOT is_super_over GROUP BY d.match_id, d.innings ORDER BY r DESC LIMIT 1
+  turns:
+  - What are the highest powerplay totals in women's T20Is since 2020?
+- id: brief_salt_sr_by_year
+  category: brief
+  grade: scalar
+  gold_sql: SELECT ROUND(100.0*SUM(runs_batter)/SUM(is_ball_faced::INT),2) FROM deliveries_ctx WHERE batter_id='3d284ca3' AND NOT is_super_over
+    AND year(date)=2023
+  turns:
+  - How has Phil Salt's T20I strike rate changed year by year?
+- id: brief_lhb_v_lawrist
+  category: brief
+  grade: scalar
+  gold_sql: SELECT ROUND(100.0*SUM(runs_batter)/SUM(is_ball_faced::INT),2) FROM deliveries_ctx WHERE batter_hand='left' AND bowling_type='wrist-spin'
+    AND gender='male' AND NOT is_super_over
+  turns:
+  - What's the strike rate of left-handed batters against left-arm wrist spin in men's T20Is?
+- id: rec_highest_total_men
+  category: records
+  grade: scalar
+  gold_sql: SELECT SUM(total_runs) t FROM deliveries d JOIN matches m USING (match_id) WHERE m.gender='male' AND NOT is_super_over GROUP BY d.match_id,
+    d.innings ORDER BY t DESC LIMIT 1
+  turns:
+  - What is the highest team total in a men's T20I?
+- id: rec_highest_total_women
+  category: records
+  grade: scalar
+  gold_sql: SELECT SUM(total_runs) t FROM deliveries d JOIN matches m USING (match_id) WHERE m.gender='female' AND NOT is_super_over GROUP BY
+    d.match_id, d.innings ORDER BY t DESC LIMIT 1
+  turns:
+  - Highest team total in women's T20Is?
+- id: rec_lowest_total_men
+  category: records
+  grade: scalar
+  gold_sql: WITH t AS (SELECT d.match_id, d.innings, SUM(total_runs) runs, COUNT(player_out_id) FILTER (WHERE wicket_kind NOT IN ('retired hurt','retired
+    not out')) w FROM deliveries d JOIN matches m USING (match_id) WHERE m.gender='male' AND NOT is_super_over GROUP BY 1,2) SELECT MIN(runs)
+    FROM t WHERE w >= 10
+  turns:
+  - What's the lowest completed team total (all out) in men's T20Is?
+- id: rec_most_runs_men
+  category: records
+  grade: list
+  gold_sql: SELECT pi.name FROM batting_innings b JOIN player_index pi USING (player_id) WHERE pi.gender='male' GROUP BY pi.player_id, pi.name
+    ORDER BY SUM(runs) DESC LIMIT 5
+  turns:
+  - Who has scored the most runs in men's T20Is? Give the top 5.
+- id: rec_most_runs_women
+  category: records
+  grade: list
+  gold_sql: SELECT pi.name FROM batting_innings b JOIN player_index pi USING (player_id) WHERE pi.gender='female' GROUP BY pi.player_id, pi.name
+    ORDER BY SUM(runs) DESC LIMIT 5
+  expect_note: Women's
+  turns:
+  - Top 5 run-scorers in women's T20Is?
+- id: rec_most_wkts_men
+  category: records
+  grade: list
+  gold_sql: SELECT pi.name FROM bowling_innings b JOIN player_index pi USING (player_id) WHERE pi.gender='male' GROUP BY pi.player_id, pi.name
+    ORDER BY SUM(wickets) DESC LIMIT 5
+  expect_note: Afghanistan
+  turns:
+  - Who are the five leading wicket-takers in men's T20Is?
+- id: rec_most_wkts_women
+  category: records
+  grade: list
+  gold_sql: SELECT pi.name FROM bowling_innings b JOIN player_index pi USING (player_id) WHERE pi.gender='female' GROUP BY pi.player_id, pi.name
+    ORDER BY SUM(wickets) DESC LIMIT 5
+  expect_note: Women's
+  turns:
+  - Who has the most wickets in women's T20Is (top 5)?
+- id: rec_most_sixes_men
+  category: records
+  grade: list
+  gold_sql: SELECT pi.name FROM deliveries d JOIN player_index pi ON pi.player_id=d.batter_id WHERE pi.gender='male' AND NOT is_super_over GROUP
+    BY pi.player_id, pi.name ORDER BY SUM(is_six::INT) DESC LIMIT 1
+  turns:
+  - Who has hit the most sixes in men's T20Is?
+- id: rec_most_sixes_women
+  category: records
+  grade: list
+  gold_sql: SELECT pi.name FROM deliveries d JOIN player_index pi ON pi.player_id=d.batter_id WHERE pi.gender='female' AND NOT is_super_over GROUP
+    BY pi.player_id, pi.name ORDER BY SUM(is_six::INT) DESC LIMIT 1
+  turns:
+  - 'Most sixes in women''s T20Is: who leads?'
+- id: rec_highest_score_men
+  category: records
+  grade: scalar
+  gold_sql: SELECT MAX(runs) FROM batting_innings b JOIN matches m USING (match_id) WHERE m.gender='male'
+  turns:
+  - What is the highest individual score in a men's T20I?
+- id: rec_highest_score_women
+  category: records
+  grade: scalar
+  gold_sql: SELECT MAX(runs) FROM batting_innings b JOIN matches m USING (match_id) WHERE m.gender='female'
+  turns:
+  - Highest individual innings in women's T20Is?
+- id: rec_best_figs_men
+  category: records
+  grade: scalar
+  gold_sql: SELECT wickets, runs_conceded FROM bowling_innings b JOIN matches m USING (match_id) WHERE m.gender='male' ORDER BY wickets DESC,
+    runs_conceded LIMIT 1
+  turns:
+  - What are the best bowling figures in a men's T20I?
+- id: rec_fastest_100_men
+  category: records
+  grade: scalar
+  gold_sql: WITH r AS (SELECT match_id, innings, batter_id, SUM(runs_batter) OVER w rs, SUM(is_ball_faced::INT) OVER w bs FROM deliveries_ctx
+    WHERE gender='male' AND NOT is_super_over WINDOW w AS (PARTITION BY match_id, innings, batter_id ORDER BY over, ball)) SELECT MIN(bs) FROM
+    r WHERE rs >= 100
+  turns:
+  - What is the fastest hundred (fewest balls) in men's T20Is?
+- id: rec_fastest_50_men
+  category: records
+  grade: scalar
+  gold_sql: WITH r AS (SELECT match_id, innings, batter_id, SUM(runs_batter) OVER w rs, SUM(is_ball_faced::INT) OVER w bs FROM deliveries_ctx
+    WHERE gender='male' AND NOT is_super_over WINDOW w AS (PARTITION BY match_id, innings, batter_id ORDER BY over, ball)) SELECT MIN(bs) FROM
+    r WHERE rs >= 50
+  turns:
+  - Fastest fifty by balls faced in a men's T20I?
+- id: rec_most_ducks_men
+  category: records
+  grade: list
+  gold_sql: SELECT pi.name FROM batting_innings b JOIN player_index pi USING (player_id) WHERE pi.gender='male' AND b.runs=0 AND EXISTS (SELECT
+    1 FROM wickets w WHERE w.match_id=b.match_id AND w.innings=b.innings AND w.player_out_id=b.player_id AND w.kind NOT IN ('retired hurt','retired
+    not out')) GROUP BY pi.player_id, pi.name ORDER BY COUNT(*) DESC LIMIT 1
+  turns:
+  - Which men's player has the most T20I ducks?
+- id: rec_most_hundreds_men
+  category: records
+  grade: list
+  gold_sql: SELECT pi.name FROM batting_innings b JOIN player_index pi USING (player_id) WHERE pi.gender='male' AND runs>=100 GROUP BY pi.player_id,
+    pi.name ORDER BY COUNT(*) DESC, pi.name LIMIT 1
+  turns:
+  - Who has the most hundreds in men's T20Is?
+- id: rec_most_matches_women
+  category: records
+  grade: list
+  gold_sql: SELECT pi.name FROM match_roles r JOIN player_index pi USING (player_id) WHERE pi.gender='female' GROUP BY pi.player_id, pi.name ORDER
+    BY COUNT(*) DESC LIMIT 1
+  turns:
+  - Which woman has played the most T20Is in the database?
+- id: rec_biggest_win_runs_men
+  category: records
+  grade: scalar
+  gold_sql: SELECT MAX(win_by_runs) FROM matches WHERE gender='male'
+  turns:
+  - What is the biggest winning margin by runs in a men's T20I?
+- id: rec_most_extras_innings
+  category: records
+  grade: scalar
+  gold_sql: SELECT SUM(extras) e FROM deliveries d JOIN matches m USING (match_id) WHERE m.gender='male' AND NOT is_super_over GROUP BY d.match_id,
+    d.innings ORDER BY e DESC LIMIT 1
+  turns:
+  - What's the most extras conceded in a single men's T20I innings?
+- id: phase_india_pp_rr_2024
+  category: phase
+  grade: scalar
+  gold_sql: SELECT ROUND(SUM(total_runs) / (SUM(is_legal_ball::INT)/6.0), 2) FROM deliveries_ctx WHERE gender='male' AND batting_team='India'
+    AND phase='powerplay' AND year(date)=2024 AND NOT is_super_over
+  turns:
+  - What was India men's run rate in the powerplay in 2024 T20Is?
+- id: phase_death_rr_men_2025
+  category: phase
+  grade: scalar
+  gold_sql: SELECT ROUND(SUM(total_runs) / (SUM(is_legal_ball::INT)/6.0), 2) FROM deliveries_ctx WHERE gender='male' AND phase='death' AND year(date)=2025
+    AND NOT is_super_over
+  expect_note: Afghanistan
+  turns:
+  - What was the average run rate at the death (overs 16-20) across men's T20Is in 2025?
+- id: phase_most_death_wkts_men
+  category: phase
+  grade: list
+  gold_sql: SELECT pi.name FROM wickets w JOIN deliveries d USING (match_id, innings, over, ball) JOIN player_index pi ON pi.player_id=w.bowler_id
+    WHERE w.is_bowler_wkt AND d.phase='death' AND NOT d.is_super_over AND pi.gender='male' GROUP BY pi.player_id, pi.name ORDER BY COUNT(*) DESC
+    LIMIT 1
+  turns:
+  - Who has taken the most death-over wickets in men's T20Is?
+- id: phase_bumrah_pp_wkts
+  category: phase
+  grade: scalar
+  gold_sql: SELECT COUNT(*) FROM wickets w JOIN deliveries d USING (match_id, innings, over, ball) WHERE w.bowler_id='462411b3' AND w.is_bowler_wkt
+    AND d.phase='powerplay' AND NOT d.is_super_over
+  expect_note: Afghanistan
+  turns:
+  - How many powerplay wickets has Jasprit Bumrah taken in T20Is?
+- id: split_kohli_v_pace
+  category: split
+  grade: scalar
+  gold_sql: SELECT ROUND(100.0*SUM(runs_batter)/SUM(is_ball_faced::INT),2) FROM deliveries_ctx WHERE batter_id='ba607b88' AND bowling_kind='pace'
+    AND NOT is_super_over
+  turns:
+  - What's Virat Kohli's strike rate against pace bowling in T20Is?
+- id: split_buttler_v_legspin
+  category: split
+  grade: scalar
+  gold_sql: SELECT COUNT(*) FROM wickets w JOIN players p ON p.player_id=w.bowler_id WHERE w.player_out_id='99b75528' AND w.is_bowler_wkt AND
+    p.bowling_type='leg-spin'
+  turns:
+  - How many times has Jos Buttler been dismissed by leg-spinners in T20Is?
+- id: split_mandhana_v_offspin
+  category: split
+  grade: scalar
+  gold_sql: SELECT ROUND(100.0*SUM(runs_batter)/SUM(is_ball_faced::INT),2) FROM deliveries_ctx WHERE batter_id='5d2eda89' AND bowling_type='off-spin'
+    AND NOT is_super_over
+  expect_note: Women's
+  turns:
+  - What is Smriti Mandhana's strike rate against off-spin in T20Is?
+- id: split_lhb_v_orthodox_women
+  category: split
+  grade: scalar
+  gold_sql: SELECT ROUND(100.0*SUM(runs_batter)/SUM(is_ball_faced::INT),2) FROM deliveries_ctx WHERE gender='female' AND batter_hand='left' AND
+    bowling_type='orthodox' AND NOT is_super_over
+  turns:
+  - Strike rate of left-handers against left-arm orthodox spin in women's T20Is?
+- id: split_pace_spin_share_2025
+  category: split
+  grade: scalar
+  gold_sql: SELECT ROUND(100.0*SUM(is_legal_ball::INT) FILTER (WHERE bowling_kind='spin') / SUM(is_legal_ball::INT) FILTER (WHERE bowling_kind
+    IS NOT NULL), 1) FROM deliveries_ctx WHERE gender='male' AND year(date)=2025 AND NOT is_super_over
+  turns:
+  - What share of legal deliveries in men's T20Is in 2025 were bowled by spinners (among bowlers whose type is known)?
+- id: h2h_rohit_starc
+  category: h2h
+  grade: scalar
+  gold_sql: SELECT COUNT(*) FROM wickets WHERE bowler_id=(SELECT player_id FROM player_index WHERE full_name='Mitchell Starc' AND gender='male')
+    AND player_out_id='740742ef' AND is_bowler_wkt
+  turns:
+  - How many times has Mitchell Starc dismissed Rohit Sharma in T20Is?
+- id: h2h_kohli_v_rashid_runs
+  category: h2h
+  grade: scalar
+  gold_sql: SELECT SUM(runs_batter) FROM deliveries WHERE batter_id='ba607b88' AND bowler_id=(SELECT player_id FROM player_index WHERE full_name='Adil
+    Rashid') AND NOT is_super_over
+  turns:
+  - How many runs has Virat Kohli scored off Adil Rashid in T20Is?
+- id: h2h_buttler_v_bumrah_balls
+  category: h2h
+  grade: scalar
+  gold_sql: SELECT SUM(is_ball_faced::INT) FROM deliveries WHERE batter_id='99b75528' AND bowler_id='462411b3' AND NOT is_super_over
+  turns:
+  - How many balls has Jos Buttler faced from Jasprit Bumrah in T20Is?
+- id: h2h_mandhana_v_ecclestone
+  category: h2h
+  grade: scalar
+  gold_sql: SELECT COUNT(*) FROM wickets WHERE bowler_id='cdb82f1c' AND player_out_id='5d2eda89' AND is_bowler_wkt
+  turns:
+  - How many times has Sophie Ecclestone dismissed Smriti Mandhana in T20Is?
+- id: team_ind_v_pak_wins
+  category: team
+  grade: scalar
+  gold_sql: SELECT COUNT(*) FROM matches WHERE gender='male' AND 'India' IN (team1,team2) AND 'Pakistan' IN (team1,team2) AND winner='India'
+  turns:
+  - How many men's T20Is has India won against Pakistan?
+- id: team_aus_eng_women_matches
+  category: team
+  grade: scalar
+  gold_sql: SELECT COUNT(*) FROM matches WHERE gender='female' AND 'Australia' IN (team1,team2) AND 'England' IN (team1,team2)
+  expect_note: Women's
+  turns:
+  - How many women's T20Is have Australia and England played against each other?
+- id: team_nz_2023_wins
+  category: team
+  grade: scalar
+  gold_sql: SELECT COUNT(*) FROM matches WHERE gender='male' AND year(date)=2023 AND winner='New Zealand'
+  turns:
+  - How many men's T20Is did New Zealand win in 2023?
+- id: team_india_women_2024_matches
+  category: team
+  grade: scalar
+  gold_sql: SELECT COUNT(*) FROM matches WHERE gender='female' AND year(date)=2024 AND 'India' IN (team1,team2)
+  turns:
+  - How many T20Is did India women play in 2024?
+- id: team_afg_wins_2022
+  category: team
+  grade: scalar
+  gold_sql: SELECT COUNT(*) FROM matches WHERE gender='male' AND year(date)=2022 AND winner='Afghanistan'
+  turns:
+  - How many men's T20Is did Afghanistan win in 2022?
+- id: team_afg_since_2025
+  category: coverage
+  grade: refuse
+  expect_note: Afghanistan
+  turns:
+  - How many T20Is has Afghanistan won since the start of 2025?
+- id: team_afg_highest_total
+  category: coverage
+  grade: scalar
+  gold_sql: SELECT SUM(total_runs) t FROM deliveries WHERE batting_team='Afghanistan' AND NOT is_super_over GROUP BY match_id, innings ORDER BY
+    t DESC LIMIT 1
+  expect_note: Afghanistan
+  turns:
+  - What is Afghanistan's highest T20I total?
+- id: team_rashid_khan_wkts
+  category: coverage
+  grade: scalar
+  gold_sql: SELECT (SELECT COUNT(*) FROM wickets w JOIN innings i USING (match_id, innings) WHERE w.bowler_id = '5f547c8b' AND w.is_bowler_wkt
+    AND NOT i.is_super_over)
+  expect_note: Afghanistan
+  turns:
+  - How many T20I wickets has Afghanistan's Rashid Khan taken?
+- id: venue_most_men
+  category: venue
+  grade: list
+  gold_sql: SELECT v.name FROM matches m JOIN venues v USING (venue_id) WHERE m.gender='male' GROUP BY v.venue_id, v.name ORDER BY COUNT(*) DESC
+    LIMIT 1
+  turns:
+  - Which ground has hosted the most men's T20Is?
+- id: venue_mcg_highest
+  category: venue
+  grade: scalar
+  gold_sql: SELECT SUM(total_runs) t FROM deliveries d JOIN matches m USING (match_id) JOIN venues v USING (venue_id) WHERE m.gender='male' AND
+    v.name='Melbourne Cricket Ground' AND NOT is_super_over GROUP BY d.match_id, d.innings ORDER BY t DESC LIMIT 1
+  turns:
+  - What's the highest T20I team total at the Melbourne Cricket Ground (men)?
+- id: venue_wankhede_matches
+  category: venue
+  grade: scalar
+  gold_sql: SELECT COUNT(*) FROM matches m JOIN venues v USING (venue_id) WHERE m.gender='male' AND v.name ILIKE 'Wankhede%'
+  turns:
+  - How many men's T20Is have been played at the Wankhede Stadium?
+- id: toss_bat_first_win_pct_men
+  category: results
+  grade: scalar
+  gold_sql: SELECT ROUND(100.0*COUNT(*) FILTER (WHERE winner=i.batting_team)/COUNT(*),1) FROM matches m JOIN innings i ON i.match_id=m.match_id
+    AND i.innings=1 WHERE m.gender='male' AND m.result='win'
+  turns:
+  - In men's T20Is with a result, how often has the team batting first won (percentage)?
+- id: toss_win_match_pct_women
+  category: results
+  grade: scalar
+  gold_sql: SELECT ROUND(100.0*COUNT(*) FILTER (WHERE winner=toss_winner)/COUNT(*),1) FROM matches WHERE gender='female' AND result='win'
+  turns:
+  - In women's T20Is with a result, what percentage were won by the side that won the toss?
+- id: results_ties_men
+  category: results
+  grade: scalar
+  gold_sql: SELECT COUNT(*) FROM matches WHERE gender='male' AND result='tie'
+  turns:
+  - How many men's T20Is in the database ended in a tie?
+- id: results_super_overs
+  category: results
+  grade: scalar
+  gold_sql: SELECT COUNT(*) FROM matches WHERE decided_by='super over'
+  turns:
+  - How many T20Is (men's and women's) have been decided by a super over?
+- id: results_matches_2025_men
+  category: results
+  grade: scalar
+  gold_sql: SELECT COUNT(*) FROM matches WHERE gender='male' AND year(date)=2025
+  expect_note: Afghanistan
+  turns:
+  - How many men's T20Is were played in 2025?
+- id: results_first_women
+  category: results
+  grade: scalar
+  gold_sql: SELECT MIN(date) FROM matches WHERE gender='female'
+  turns:
+  - When was the first women's T20I with ball-by-ball records in the database?
+- id: trend_men_rr_2024
+  category: trend
+  grade: scalar
+  gold_sql: SELECT ROUND(SUM(total_runs)/(SUM(is_legal_ball::INT)/6.0),2) FROM deliveries_ctx d JOIN matches m USING (match_id) WHERE m.gender='male'
+    AND year(m.date)=2024 AND NOT is_super_over AND m.team1 IN ('Afghanistan','Australia','Bangladesh','England','India','Ireland','New Zealand','Pakistan','South
+    Africa','Sri Lanka','West Indies','Zimbabwe') AND m.team2 IN ('Afghanistan','Australia','Bangladesh','England','India','Ireland','New Zealand','Pakistan','South
+    Africa','Sri Lanka','West Indies','Zimbabwe')
+  turns:
+  - What was the overall run rate in men's T20Is between Full Member nations in 2024?
+- id: trend_sixes_per_match_women_2025
+  category: trend
+  grade: scalar
+  gold_sql: SELECT ROUND(SUM(is_six::INT)*1.0/COUNT(DISTINCT match_id),2) FROM deliveries_ctx WHERE gender='female' AND year(date)=2025 AND NOT
+    is_super_over
+  turns:
+  - How many sixes per match were hit in women's T20Is in 2025?
+- id: trend_kohli_best_year
+  category: trend
+  grade: scalar
+  gold_sql: SELECT year(date) FROM deliveries_ctx WHERE batter_id='ba607b88' AND NOT is_super_over GROUP BY 1 ORDER BY SUM(runs_batter) DESC LIMIT
+    1
+  turns:
+  - In which calendar year did Virat Kohli score the most T20I runs?
+- id: trend_bumrah_2024_econ
+  category: trend
+  grade: scalar
+  gold_sql: SELECT ROUND(SUM(runs_conceded)/(SUM(is_legal_ball::INT)/6.0),2) FROM deliveries_ctx WHERE bowler_id='462411b3' AND year(date)=2024
+    AND NOT is_super_over
+  turns:
+  - What was Jasprit Bumrah's T20I economy rate in 2024?
+- id: refuse_test_runs
+  category: refuse
+  grade: refuse
+  turns:
+  - How many Test runs has Joe Root scored?
+- id: refuse_odi
+  category: refuse
+  grade: refuse
+  turns:
+  - What's the highest ODI score by an Indian?
+- id: refuse_ipl
+  category: refuse
+  grade: refuse
+  turns:
+  - Who has the most sixes in IPL history?
+- id: refuse_speed
+  category: refuse
+  grade: refuse
+  turns:
+  - What is the fastest ball Jasprit Bumrah has bowled in a T20I?
+- id: refuse_line_length
+  category: refuse
+  grade: refuse
+  turns:
+  - What percentage of Shaheen Afridi's deliveries are yorkers?
+- id: refuse_fielding_pos
+  category: refuse
+  grade: refuse
+  turns:
+  - How many catches has Glenn Phillips taken at point in T20Is?
+- id: refuse_shot_type
+  category: refuse
+  grade: refuse
+  turns:
+  - How many runs has Babar Azam scored with the cover drive in T20Is?
+- id: refuse_future
+  category: refuse
+  grade: refuse
+  turns:
+  - Who will win the next men's T20 World Cup?
+- id: refuse_opinion
+  category: refuse
+  grade: refuse
+  turns:
+  - Is Virat Kohli a better T20I batter than Babar Azam?
+- id: refuse_bbl
+  category: refuse
+  grade: refuse
+  turns:
+  - Who has the most wickets in the Big Bash League?
+- id: refuse_wagon_wheel
+  category: refuse
+  grade: refuse
+  turns:
+  - Where on the field does Suryakumar Yadav score most of his runs?
+- id: refuse_crowd
+  category: refuse
+  grade: refuse
+  turns:
+  - What was the attendance at the 2024 men's T20 World Cup final?
+- id: fu_kohli_then_2016
+  category: followup
+  grade: scalar
+  turns:
+  - How many T20I runs has Virat Kohli scored?
+  - And in 2016 alone?
+  gold_sql: SELECT SUM(runs_batter) FROM deliveries_ctx WHERE batter_id='ba607b88' AND year(date)=2016 AND NOT is_super_over
+- id: fu_bumrah_then_death
+  category: followup
+  grade: scalar
+  turns:
+  - What's Jasprit Bumrah's T20I economy rate?
+  - Now only in the death overs.
+  gold_sql: SELECT ROUND(SUM(runs_conceded)/(SUM(is_legal_ball::INT)/6.0),2) FROM deliveries WHERE bowler_id='462411b3' AND phase='death' AND
+    NOT is_super_over
+  expect_note: Afghanistan
+- id: fu_mandhana_then_vs_aus
+  category: followup
+  grade: scalar
+  turns:
+  - How many runs has Smriti Mandhana scored in T20Is?
+  - What about just against Australia?
+  gold_sql: SELECT SUM(runs_batter) FROM deliveries WHERE batter_id='5d2eda89' AND bowling_team='Australia' AND NOT is_super_over
+  expect_note: Women's
+- id: fu_most_sixes_then_women
+  category: followup
+  grade: list
+  turns:
+  - Who has hit the most sixes in men's T20Is?
+  - Same question for women.
+  gold_sql: SELECT pi.name FROM deliveries d JOIN player_index pi ON pi.player_id=d.batter_id WHERE pi.gender='female' AND NOT is_super_over GROUP
+    BY pi.player_id, pi.name ORDER BY SUM(is_six::INT) DESC LIMIT 1
+- id: fu_babar_then_sr
+  category: followup
+  grade: scalar
+  turns:
+  - How many T20I runs does Babar Azam have against Australia?
+  - And his strike rate in those games?
+  gold_sql: SELECT ROUND(100.0*SUM(runs_batter)/SUM(is_ball_faced::INT),2) FROM deliveries WHERE batter_id='8a75e999' AND bowling_team='Australia'
+    AND NOT is_super_over

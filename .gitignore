@@ -1,0 +1,16 @@
+# secrets and local state
+.env
+data/app.sqlite
+data/app.sqlite-*
+
+# installed packages and caches (recreate with pip / npm install)
+.venv/
+__pycache__/
+.pytest_cache/
+.claude/
+
+# raw match files unzipped by ingest (the zip is kept)
+data/raw/t20s/
+
+# eval run outputs
+eval/results/

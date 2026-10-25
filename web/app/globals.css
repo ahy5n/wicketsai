@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+/* Newsroom palette. --accent is a placeholder for The Follow Through's teal: change it here only. */
+:root {
+  --bg: #fbfaf7;
+  --surface: #ffffff;
+  --ink: #111111;
+  --muted: #5f5f5a;
+  --rule: #dedbd2;
+  --accent: #0e7c7b;
+  --accent-ink: #ffffff;
+  --accent-soft: #e3f1f0;
+  --warn-bg: #fff6e0;
+  --warn-ink: #6b4a00;
+  --bad: #b3261e;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121211;
+    --surface: #1b1b19;
+    --ink: #f1efe9;
+    --muted: #a6a39a;
+    --rule: #34332f;
+    --accent: #3fb3ae;
+    --accent-ink: #0b1615;
+    --accent-soft: #15302f;
+    --warn-bg: #2f2612;
+    --warn-ink: #f0d58e;
+    --bad: #f2867f;
+  }
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-rule: var(--rule);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-warn-bg: var(--warn-bg);
+  --color-warn-ink: var(--warn-ink);
+  --color-bad: var(--bad);
+  --font-serif: var(--font-serif-face);
+  --font-sans: var(--font-sans-face);
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans-face), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Stats box: tabular figures, hairline rules, like a newspaper table. */
+.stats-table {
+  font-variant-numeric: tabular-nums;
+  border-collapse: collapse;
+  width: 100%;
+}
+.stats-table th {
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+  text-align: left;
+  padding: 0.45rem 0.75rem 0.45rem 0;
+  border-bottom: 2px solid var(--ink);
+  white-space: nowrap;
+}
+.stats-table td {
+  padding: 0.5rem 0.75rem 0.5rem 0;
+  border-bottom: 1px solid var(--rule);
+  white-space: nowrap;
+}
+.stats-table td.num,
+.stats-table th.num {
+  text-align: right;
+}
+
+.focus-ring:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}

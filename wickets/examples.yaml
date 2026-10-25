@@ -1,0 +1,209 @@
+# Tested example queries (tests/test_examples.py runs every one).
+# They are the model's pattern library: correct conventions, joins and filters.
+
+- question: How many T20I runs has Virat Kohli scored, and at what average and strike rate?
+  sql: |
+    WITH p AS (SELECT player_id FROM player_index WHERE full_name = 'Virat Kohli' AND gender = 'male'),
+    bat AS (
+      SELECT SUM(runs_batter) AS runs, SUM(is_ball_faced::INT) AS balls
+      FROM deliveries WHERE batter_id = (SELECT player_id FROM p) AND NOT is_super_over),
+    outs AS (
+      SELECT COUNT(*) AS dismissals FROM wickets w JOIN innings i USING (match_id, innings)
+      WHERE w.player_out_id = (SELECT player_id FROM p) AND NOT i.is_super_over
+        AND w.kind NOT IN ('retired hurt', 'retired not out')),
+    inns AS (
+      SELECT COUNT(*) AS innings FROM match_roles
+      WHERE player_id = (SELECT player_id FROM p) AND batting_position IS NOT NULL)
+    SELECT inns.innings, bat.runs, outs.dismissals,
+           ROUND(bat.runs / NULLIF(outs.dismissals, 0), 2) AS average,
+           ROUND(100.0 * bat.runs / bat.balls, 2) AS strike_rate
+    FROM bat, outs, inns
+
+- question: How many sixes has Suryakumar Yadav hit off spinners in T20Is?
+  notes: Bowling kind comes from profiles; report unclassified balls separately.
+  sql: |
+    SELECT COALESCE(bowling_kind, 'unknown') AS bowling_kind,
+           SUM(is_six::INT) AS sixes, SUM(is_ball_faced::INT) AS balls
+    FROM deliveries_ctx
+    WHERE batter_id = (SELECT player_id FROM player_index WHERE full_name = 'Suryakumar Yadav')
+      AND NOT is_super_over
+    GROUP BY 1 ORDER BY 2 DESC
+
+- question: "Bumrah vs Shaheen Afridi at the death: economy, dot-ball % and wickets."
+  sql: |
+    SELECT pi.full_name AS bowler,
+           SUM(d.is_legal_ball::INT) AS balls,
+           (SUM(d.is_legal_ball::INT) // 6) || '.' || (SUM(d.is_legal_ball::INT) % 6) AS overs,
+           SUM(d.runs_conceded) AS runs,
+           ROUND(SUM(d.runs_conceded) / (SUM(d.is_legal_ball::INT) / 6.0), 2) AS economy,
+           ROUND(100.0 * SUM(d.is_dot::INT) / SUM(d.is_legal_ball::INT), 1) AS dot_pct,
+           (SELECT COUNT(*) FROM wickets w JOIN deliveries d2 USING (match_id, innings, over, ball)
+             WHERE w.bowler_id = pi.player_id AND w.is_bowler_wkt AND d2.phase = 'death'
+               AND NOT d2.is_super_over) AS wickets
+    FROM deliveries d JOIN player_index pi ON pi.player_id = d.bowler_id
+    WHERE pi.full_name IN ('Jasprit Bumrah', 'Shaheen Shah Afridi')
+      AND d.phase = 'death' AND NOT d.is_super_over
+    GROUP BY pi.full_name, pi.player_id
+
+- question: When did a No. 11 last top-score in a men's T20I innings?
+  notes: Top-scored = highest individual score in that team innings, ties included.
+  sql: |
+    WITH scores AS (
+      SELECT b.match_id, b.innings, b.player_id, b.team, b.runs, r.batting_position,
+             MAX(b.runs) OVER (PARTITION BY b.match_id, b.innings) AS top
+      FROM batting_innings b JOIN match_roles r ON r.match_id = b.match_id AND r.player_id = b.player_id
+    )
+    SELECT m.date, s.team, pi.name AS batter, s.runs, m.team1 || ' v ' || m.team2 AS fixture, s.match_id
+    FROM scores s JOIN matches m USING (match_id) JOIN player_index pi ON pi.player_id = s.player_id
+    WHERE s.batting_position = 11 AND s.runs = s.top AND s.runs > 0 AND m.gender = 'male'
+    ORDER BY m.date DESC LIMIT 5
+
+- question: Highest powerplay totals in women's T20Is since 2020.
+  sql: |
+    SELECT d.batting_team, m.team1 || ' v ' || m.team2 AS fixture, m.date,
+           SUM(d.total_runs) AS powerplay_runs,
+           COUNT(*) FILTER (WHERE d.player_out_id IS NOT NULL) AS wickets,
+           d.match_id
+    FROM deliveries d JOIN matches m USING (match_id)
+    WHERE m.gender = 'female' AND m.date >= DATE '2020-01-01'
+      AND d.phase = 'powerplay' AND NOT d.is_super_over
+    GROUP BY d.match_id, d.innings, d.batting_team, m.team1, m.team2, m.date
+    ORDER BY powerplay_runs DESC LIMIT 10
+
+- question: How has Phil Salt's strike rate changed year by year?
+  sql: |
+    SELECT year(date) AS year, COUNT(DISTINCT match_id) AS matches,
+           SUM(runs_batter) AS runs, SUM(is_ball_faced::INT) AS balls,
+           ROUND(100.0 * SUM(runs_batter) / SUM(is_ball_faced::INT), 2) AS strike_rate
+    FROM deliveries_ctx
+    WHERE batter_id = (SELECT player_id FROM player_index WHERE full_name = 'Phil Salt')
+      AND NOT is_super_over
+    GROUP BY 1 ORDER BY 1
+
+- question: Left-handed batters' strike rate against left-arm wrist spin.
+  sql: |
+    SELECT gender, SUM(runs_batter) AS runs, SUM(is_ball_faced::INT) AS balls,
+           ROUND(100.0 * SUM(runs_batter) / SUM(is_ball_faced::INT), 2) AS strike_rate,
+           SUM(is_bowler_wkt::INT) AS dismissals
+    FROM deliveries_ctx
+    WHERE batter_hand = 'left' AND bowling_type = 'wrist-spin' AND NOT is_super_over
+    GROUP BY gender
+
+- question: Most wickets in men's T20Is.
+  sql: |
+    SELECT pi.name, pi.country, COUNT(DISTINCT b.match_id) AS matches, SUM(b.wickets) AS wickets,
+           SUM(b.runs_conceded) AS runs,
+           ROUND(SUM(b.runs_conceded) / (SUM(b.legal_balls) / 6.0), 2) AS economy
+    FROM bowling_innings b JOIN player_index pi USING (player_id)
+    WHERE pi.gender = 'male'
+    GROUP BY pi.name, pi.country ORDER BY wickets DESC LIMIT 10
+
+- question: Best bowling figures in women's T20Is.
+  sql: |
+    SELECT pi.name, b.team, b.wickets, b.runs_conceded,
+           b.wickets || '/' || b.runs_conceded AS figures, m.date,
+           m.team1 || ' v ' || m.team2 AS fixture, b.match_id
+    FROM bowling_innings b JOIN matches m USING (match_id) JOIN player_index pi USING (player_id)
+    WHERE m.gender = 'female' AND pi.gender = 'female'
+    ORDER BY b.wickets DESC, b.runs_conceded ASC LIMIT 10
+
+- question: Highest team totals in men's T20Is.
+  sql: |
+    SELECT d.batting_team, d.bowling_team, m.date, SUM(d.total_runs) AS total,
+           COUNT(w.player_out_id) AS wickets, d.match_id
+    FROM deliveries d JOIN matches m USING (match_id)
+    LEFT JOIN wickets w ON w.match_id = d.match_id AND w.innings = d.innings
+         AND w.over = d.over AND w.ball = d.ball
+    WHERE m.gender = 'male' AND NOT d.is_super_over
+    GROUP BY d.match_id, d.innings, d.batting_team, d.bowling_team, m.date
+    ORDER BY total DESC LIMIT 10
+
+- question: Fastest T20I hundreds by balls faced (men).
+  sql: |
+    WITH running AS (
+      SELECT d.match_id, d.batter_id, d.over, d.ball,
+             SUM(d.runs_batter) OVER w AS runs_so_far,
+             SUM(d.is_ball_faced::INT) OVER w AS balls_so_far
+      FROM deliveries_ctx d
+      WHERE d.gender = 'male' AND NOT d.is_super_over
+      WINDOW w AS (PARTITION BY d.match_id, d.innings, d.batter_id ORDER BY d.over, d.ball)
+    )
+    SELECT pi.name, MIN(balls_so_far) AS balls_to_100, r.match_id
+    FROM running r JOIN player_index pi ON pi.player_id = r.batter_id
+    WHERE runs_so_far >= 100
+    GROUP BY pi.name, r.match_id ORDER BY balls_to_100 LIMIT 10
+
+- question: Babar Azam's record against Australia.
+  sql: |
+    SELECT COUNT(DISTINCT d.match_id) AS matches, SUM(d.runs_batter) AS runs,
+           SUM(d.is_ball_faced::INT) AS balls,
+           ROUND(100.0 * SUM(d.runs_batter) / SUM(d.is_ball_faced::INT), 2) AS strike_rate,
+           (SELECT COUNT(*) FROM wickets w JOIN innings i USING (match_id, innings)
+             WHERE w.player_out_id = (SELECT player_id FROM player_index WHERE full_name = 'Babar Azam')
+               AND i.bowling_team = 'Australia' AND NOT i.is_super_over
+               AND w.kind NOT IN ('retired hurt', 'retired not out')) AS dismissals
+    FROM deliveries d
+    WHERE d.batter_id = (SELECT player_id FROM player_index WHERE full_name = 'Babar Azam')
+      AND d.bowling_team = 'Australia' AND NOT d.is_super_over
+
+- question: How did Rohit Sharma fare against Mitchell Starc?
+  notes: Head-to-head; the batter's dismissals by that bowler come from wickets.
+  sql: |
+    WITH bat AS (SELECT player_id FROM player_index WHERE full_name = 'Rohit Sharma'),
+         bwl AS (SELECT player_id FROM player_index WHERE full_name = 'Mitchell Starc' AND gender = 'male')
+    SELECT SUM(runs_batter) AS runs, SUM(is_ball_faced::INT) AS balls, SUM(is_dot::INT) AS dots,
+           SUM(is_four::INT) AS fours, SUM(is_six::INT) AS sixes,
+           (SELECT COUNT(*) FROM wickets w WHERE w.bowler_id = (SELECT player_id FROM bwl)
+              AND w.player_out_id = (SELECT player_id FROM bat) AND w.is_bowler_wkt) AS dismissals,
+           COUNT(DISTINCT match_id) AS matches
+    FROM deliveries
+    WHERE batter_id = (SELECT player_id FROM bat) AND bowler_id = (SELECT player_id FROM bwl)
+      AND NOT is_super_over
+
+- question: Which venue has hosted the most men's T20Is?
+  sql: |
+    SELECT v.name, v.city, COUNT(*) AS matches
+    FROM matches m JOIN venues v USING (venue_id)
+    WHERE m.gender = 'male'
+    GROUP BY v.name, v.city ORDER BY matches DESC LIMIT 10
+
+- question: Most T20I fifties for India women.
+  sql: |
+    SELECT pi.name, COUNT(*) FILTER (WHERE b.runs BETWEEN 50 AND 99) AS fifties,
+           COUNT(*) FILTER (WHERE b.runs >= 100) AS hundreds
+    FROM batting_innings b JOIN player_index pi USING (player_id)
+    WHERE b.team = 'India' AND pi.gender = 'female'
+    GROUP BY pi.name ORDER BY fifties DESC LIMIT 10
+
+- question: Win rate batting first vs chasing in men's T20Is at Dubai.
+  sql: |
+    WITH m AS (
+      SELECT m.match_id, m.winner, i.batting_team AS bat_first
+      FROM matches m JOIN innings i ON i.match_id = m.match_id AND i.innings = 1
+      JOIN venues v USING (venue_id)
+      WHERE m.gender = 'male' AND v.name ILIKE 'Dubai International%' AND m.result = 'win'
+    )
+    SELECT COUNT(*) AS decided_matches,
+           COUNT(*) FILTER (WHERE winner = bat_first) AS won_batting_first,
+           ROUND(100.0 * COUNT(*) FILTER (WHERE winner = bat_first) / COUNT(*), 1) AS pct_bat_first
+    FROM m
+
+- question: Who has taken the most wickets in the death overs in men's T20Is since 2022?
+  sql: |
+    SELECT pi.name, pi.country, COUNT(*) AS death_wickets
+    FROM wickets w
+    JOIN deliveries d USING (match_id, innings, over, ball)
+    JOIN matches m ON m.match_id = w.match_id
+    JOIN player_index pi ON pi.player_id = w.bowler_id
+    WHERE w.is_bowler_wkt AND d.phase = 'death' AND NOT d.is_super_over
+      AND m.gender = 'male' AND m.date >= DATE '2022-01-01'
+    GROUP BY pi.name, pi.country ORDER BY death_wickets DESC LIMIT 10
+
+- question: How many T20I matches has Ellyse Perry played, and how many wickets has she taken?
+  notes: Women's records before ~2014 are incomplete; the answer must say so.
+  sql: |
+    WITH p AS (SELECT player_id FROM player_index WHERE full_name = 'Ellyse Perry')
+    SELECT (SELECT COUNT(*) FROM match_roles WHERE player_id = (SELECT player_id FROM p)) AS matches,
+           (SELECT SUM(wickets) FROM bowling_innings WHERE player_id = (SELECT player_id FROM p)) AS wickets,
+           (SELECT MIN(m.date) FROM match_roles r JOIN matches m USING (match_id)
+              WHERE r.player_id = (SELECT player_id FROM p)) AS first_match_in_db
